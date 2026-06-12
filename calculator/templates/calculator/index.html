@@ -1,0 +1,28 @@
+{% extends "calculator/base.html" %}
+{% block title %}Калькулятор{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>🧮 Калькулятор</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <ul class="field-errors">
+                {% for err in field.errors %}<li>⚠️ {{ err }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button class="btn" type="submit">Вычислить</button>
+    </form>
+    {% if result is not None %}
+    <div class="result-box">
+        <p>Результат:</p>
+        <p class="value">{{ result }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
